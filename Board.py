@@ -15,4 +15,6 @@ class Board:
             row = [1 if elem == 'Q' else 0 for elem in line]
             self._config.append(row)
 
+    def solve(self, algorithm):
+        algorithm.solve(self._config)
 
