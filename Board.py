@@ -18,3 +18,18 @@ class Board:
     def solve(self, algorithm):
         algorithm.solve(self._config)
 
+#
+# def has_conflicts(self):
+#     for row in self._config:
+#         if sum(row) > 1:
+#             return True
+#
+#     for col in zip(*self._config):
+#         if sum(col) > 1:
+#             return True
+#
+#     # Sum diagonal left
+#
+#     # Sum diagonal right
+#
+#     return False
