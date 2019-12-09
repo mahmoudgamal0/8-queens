@@ -9,6 +9,7 @@ class Board:
     @config.setter
     def config(self, value):
         board_list = value.split('\n')
+        board_list = [elem.split(' ') for elem in board_list]
         self._config = []
 
         for line in board_list:
