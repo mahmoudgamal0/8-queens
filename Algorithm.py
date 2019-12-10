@@ -7,14 +7,6 @@ class Algorithm:
     def solve(self, config):
         pass
 
-class HillClimb(Algorithm):
-    def __init__(self):
-        super().__init__()
-
-    def solve(self, config):
-        # TODO IMPLEMENT ALGORITHM
-        pass
-
 
 class KBeam(Algorithm):
     def __init__(self):

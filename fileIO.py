@@ -12,12 +12,12 @@ def get_initial_configurations():
     return board
 
 
-def write_new_configuration(config):
+def write_new_configuration(config, name):
     writable_str = ''
     for row in config:
         writable_row = ['Q' if elem else '#' for elem in row]
         writable_str += ''.join(writable_row) + '\n'
 
-    file = open("queens_out.txt", 'w')
+    file = open(f"queens_out_{name}.txt", 'w')
     file.write(writable_str)
     file.close()

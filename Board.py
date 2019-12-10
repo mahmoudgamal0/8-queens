@@ -33,7 +33,7 @@ class Board:
         board_list = [elem.split(' ') for elem in board_list]
         self._config = []
         for line in board_list:
-            row = [1 if elem == 'Q' else 0 for elem in line]
+            row = [(1 if elem == 'Q' else 0) for elem in line[0]]
             self._config.append(row)
         # TODO each column one queen
 
@@ -138,20 +138,3 @@ class Board:
             row = [1 if queens[j] == i else 0 for j in range(0, 8)]
             self._config.append(row)
         self.set_conflicting_pairs()
-
-
-#
-# def has_conflicts(self):
-#     for row in self._config:
-#         if sum(row) > 1:
-#             return True
-#
-#     for col in zip(*self._config):
-#         if sum(col) > 1:
-#             return True
-#
-#     # Sum diagonal left
-#
-#     # Sum diagonal right
-#
-#     return False
