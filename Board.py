@@ -33,9 +33,9 @@ class Board:
         board_list = [elem.split(' ') for elem in board_list]
         self._config = []
         for line in board_list:
-            row = [(1 if elem == 'Q' else 0) for elem in line[0]]
-            self._config.append(row)
-        # TODO each column one queen
+            self._config.append([(1 if elem == 'Q' else 0) for elem in line[0]])
+
+        self.arrange_queens()
 
         rows_of_queens = []
         for j in range(0, 8):
@@ -138,3 +138,51 @@ class Board:
             row = [1 if queens[j] == i else 0 for j in range(0, 8)]
             self._config.append(row)
         self.set_conflicting_pairs()
+
+    def arrange_queens(self):
+        for i in range(0, 8):
+            for j in range(0, 8):
+                if self._config[i][j] == 1:
+                    row_safe, col_safe = True, True
+                    if sum(row[j] for row in self._config) > 1:
+                        col_safe = False
+
+                    l, k = i, j
+                    while not col_safe:
+                        # Right
+                        if k+1 < 8 and self._config[l][k+1] != 1:
+                            self._config[l][k+1] = self._config[l][k]
+                            self.config[l][k] = 0
+                            k = k+1
+                        # Diag Right UP
+                        elif k+1 < 8 and l-1 >= 0 and self._config[l-1][k+1] != 1:
+                            self._config[l-1][k+1] = self._config[l][k]
+                            self.config[l][k] = 0
+                            k = k+1
+                            l = l-1
+                        # Diag Right Down
+                        elif k+1 < 8 and l+1 < 8 and self._config[l+1][k+1] != 1:
+                            self._config[l+1][k+1] = self._config[l][k]
+                            self.config[l][k] = 0
+                            k = k+1
+                            l = l+1
+                        # Left
+                        elif k - 1 >= 0 and self._config[l][k - 1] != 1:
+                            self._config[l][k - 1] = self._config[l][k]
+                            self.config[l][k] = 0
+                            k = k - 1
+                        # Diag Left UP
+                        elif k-1 >= 0 and l-1 >= 0 and self._config[l-1][k-1] != 1:
+                            self._config[l-1][k-1] = self._config[l][k]
+                            self.config[l][k] = 0
+                            k = k - 1
+                            l = l - 1
+                        # Diag Left DOWN
+                        elif k-1 >= 0 and l+1 < 8 and self._config[l+1][k-1] != 1:
+                            self._config[l+1][k-1] = self._config[l][k]
+                            self.config[l][k] = 0
+                            k = k - 1
+                            l = l + 1
+
+                        if sum(row[k] for row in self._config) == 1:
+                            col_safe = True

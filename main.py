@@ -23,7 +23,7 @@ def main():
 
 
 def print_result(method, expanded_nodes, board, exec_time):
-    print("explored nodes count = ", expanded_nodes, " cost = ", board.cost, " time = ", exec_time, " secs")
+    print(f"{method}: explored nodes count = {expanded_nodes}, cost = {board.cost}, time = {exec_time} secs")
     write_new_configuration(board.config, method)
 
 
