@@ -131,6 +131,15 @@ class Board:
         self.set_conflicting_pairs()
         self._cost += 1
 
+    def configure_with_queens(self, queens):
+        self._config = []
+        self._rows = copy.deepcopy(queens)
+        for i in range(0, 8):
+            row = [1 if queens[j] == i else 0 for j in range(0, 8)]
+            self._config.append(row)
+        self.set_conflicting_pairs()
+
+
 #
 # def has_conflicts(self):
 #     for row in self._config:
