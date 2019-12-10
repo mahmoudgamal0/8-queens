@@ -26,6 +26,10 @@ class Board:
     @property
     def cost(self):
         return self._cost
+    
+    @cost.setter
+    def cost(self,value):
+        self._cost = value
 
     @config.setter
     def config(self, value):
@@ -33,7 +37,7 @@ class Board:
         board_list = [elem.split(' ') for elem in board_list]
         self._config = []
         for line in board_list:
-            row = [(1 if elem == 'Q' else 0) for elem in line[0]]
+            row = [(1 if elem == 'Q' else 0) for elem in line]
             self._config.append(row)
         # TODO each column one queen
 
