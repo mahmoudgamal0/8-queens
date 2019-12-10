@@ -8,14 +8,6 @@ class Algorithm:
         pass
 
 
-class KBeam(Algorithm):
-    def __init__(self):
-        super().__init__()
-
-    def solve(self, config):
-        # TODO IMPLEMENT ALGORITHM
-        pass
-
 
 class Genetic(Algorithm):
     def __init__(self):
