@@ -7,16 +7,6 @@ class Algorithm:
     def solve(self, config):
         pass
 
-
-class CSP(Algorithm):
-    def __init__(self):
-        super().__init__()
-
-    def solve(self, config):
-        # TODO IMPLEMENT ALGORITHM
-        pass
-
-
 class HillClimb(Algorithm):
     def __init__(self):
         super().__init__()
