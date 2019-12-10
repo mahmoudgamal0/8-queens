@@ -2,6 +2,7 @@ import copy
 import time
 
 from CSP import CSP
+from GA import Genetic
 from HillClimb import HillClimb
 from fileIO import get_initial_configurations, write_new_configuration
 
@@ -20,6 +21,12 @@ def main():
     board_csp, expanded_nodes_csp = copy.deepcopy(board).solve(CSP())
     time_csp = time.time() - time_csp
     print_result('CSP', expanded_nodes_csp, board_csp, time_csp)
+
+    # GA
+    time_ga = time.time()
+    board_ga, expanded_nodes_ga = copy.deepcopy(board).solve(Genetic(100))
+    time_ga = time.time() - time_ga
+    print_result('GA', expanded_nodes_ga, board_ga, time_ga)
 
 
 def print_result(method, expanded_nodes, board, exec_time):
