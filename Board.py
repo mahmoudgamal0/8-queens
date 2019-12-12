@@ -140,49 +140,99 @@ class Board:
         self.set_conflicting_pairs()
 
     def arrange_queens(self):
+        col_sums = [sum(x) for x in zip(*self._config)]
+        zero_index = []
         for i in range(0, 8):
-            for j in range(0, 8):
-                if self._config[i][j] == 1:
-                    row_safe, col_safe = True, True
-                    if sum(row[j] for row in self._config) > 1:
-                        col_safe = False
+            if col_sums[i] == 0:
+                zero_index.append(i)
 
-                    l, k = i, j
-                    while not col_safe:
-                        # Right
-                        if k+1 < 8 and self._config[l][k+1] != 1:
-                            self._config[l][k+1] = self._config[l][k]
-                            self.config[l][k] = 0
-                            k = k+1
-                        # Diag Right UP
-                        elif k+1 < 8 and l-1 >= 0 and self._config[l-1][k+1] != 1:
-                            self._config[l-1][k+1] = self._config[l][k]
-                            self.config[l][k] = 0
-                            k = k+1
-                            l = l-1
-                        # Diag Right Down
-                        elif k+1 < 8 and l+1 < 8 and self._config[l+1][k+1] != 1:
-                            self._config[l+1][k+1] = self._config[l][k]
-                            self.config[l][k] = 0
-                            k = k+1
-                            l = l+1
-                        # Left
-                        elif k - 1 >= 0 and self._config[l][k - 1] != 1:
-                            self._config[l][k - 1] = self._config[l][k]
-                            self.config[l][k] = 0
-                            k = k - 1
-                        # Diag Left UP
-                        elif k-1 >= 0 and l-1 >= 0 and self._config[l-1][k-1] != 1:
-                            self._config[l-1][k-1] = self._config[l][k]
-                            self.config[l][k] = 0
-                            k = k - 1
-                            l = l - 1
-                        # Diag Left DOWN
-                        elif k-1 >= 0 and l+1 < 8 and self._config[l+1][k-1] != 1:
-                            self._config[l+1][k-1] = self._config[l][k]
-                            self.config[l][k] = 0
-                            k = k - 1
-                            l = l + 1
+        for j, col in enumerate(col_sums):
+            if col <= 1:
+                continue
 
-                        if sum(row[k] for row in self._config) == 1:
-                            col_safe = True
+            rows = []
+            for l in range(0, 8):
+                if self.config[l][j] == 1:
+                    rows.append(l)
+
+            for i in rows:
+                if col_sums[j] == 1:
+                    break
+
+                k = min(zero_index, key=lambda x: abs(x-j))
+                moved = True
+                # Right
+                if k > j:
+                    # Direct Right
+                    if sum(self.config[i][j+1:k+1]) == 0:
+                        self.config[i][k] = 1
+                        self.config[i][j] = 0
+                    else:
+                        pos = [i, j]
+                        down = False
+                        while pos[1] != k:
+
+                            # Direct Right
+                            if pos[1] + 1 < 8 and self.config[pos[0]][pos[1] + 1] == 0:
+                                pos[1] += 1
+                            # Diag Right Up
+                            elif pos[0] - 1 >= 0 and pos[1] + 1 < 8 and self.config[pos[0] - 1][pos[1] + 1] == 0:
+                                pos[0] -= 1
+                                pos[1] += 1
+                            # Diag Right down
+                            elif pos[0] + 1 < 8 and pos[1] + 1 < 8 and self.config[pos[0] + 1][pos[1] + 1] == 0:
+                                pos[0] += 1
+                                pos[1] += 1
+                            # Down
+                            elif pos[0] + 1 < 8 and self.config[pos[0] + 1][pos[1]] == 0 and not down:
+                                pos[0] += 1
+                            # UP
+                            elif pos[0] - 1 >= 0 and self.config[pos[0] - 1][pos[1]] == 0:
+                                down = True
+                                pos[0] -= 1
+                            else:
+                                moved = False
+                                break
+
+                        self.config[i][j] = 0
+                        self.config[pos[0]][pos[1]] = 1
+
+                # Left
+                else:
+                    # Direct Left
+                    if sum(self.config[i][k:j - 1]) == 0:
+                        self.config[i][k] = 1
+                        self.config[i][j] = 0
+                    else:
+                        pos = [i, j]
+                        down = False
+                        while pos[1] != k:
+
+                            # Direct Left
+                            if pos[1] - 1 >= 0 and self.config[pos[0]][pos[1] - 1] == 0:
+                                pos[1] -= 1
+                            # Diag Left Up
+                            elif pos[0] - 1 >= 0 and pos[1] - 1 >= 0 and self.config[pos[0] - 1][pos[1] - 1] == 0:
+                                pos[0] -= 1
+                                pos[1] -= 1
+                            # Diag Left down
+                            elif pos[0] + 1 < 8 and pos[1] - 1 >= 0 and self.config[pos[0] + 1][pos[1] - 1] == 0:
+                                pos[0] += 1
+                                pos[1] -= 1
+                            # Down
+                            elif pos[0] + 1 < 8 and self.config[pos[0] + 1][pos[1]] == 0 and not down:
+                                pos[0] += 1
+                            # UP
+                            elif pos[0] - 1 >= 0 and self.config[pos[0] - 1][pos[1]] == 0:
+                                down = True
+                                pos[0] -= 1
+                            else:
+                                moved = False
+                                break
+
+                        self.config[i][j] = 0
+                        self.config[pos[0]][pos[1]] = 1
+
+                if moved:
+                    col_sums[j] -= 1
+                    zero_index.remove(k)
