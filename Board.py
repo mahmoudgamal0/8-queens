@@ -37,7 +37,7 @@ class Board:
         board_list = [elem.split(' ') for elem in board_list]
         self._config = []
         for line in board_list:
-            self._config.append([(1 if elem == 'Q' else 0) for elem in line])
+            self._config.append([(1 if elem == 'Q' else 0) for elem in line[0]])
 
         self.arrange_queens()
 
@@ -167,76 +167,109 @@ class Board:
                 moved = True
                 # Right
                 if k > j:
+                    cost = 0
                     # Direct Right
                     if sum(self.config[i][j+1:k+1]) == 0:
                         self.config[i][k] = 1
                         self.config[i][j] = 0
+                        cost = 1
                     else:
                         pos = [i, j]
                         down = False
+                        motion = ''
                         while pos[1] != k:
-
+                            direction = ''
                             # Direct Right
                             if pos[1] + 1 < 8 and self.config[pos[0]][pos[1] + 1] == 0:
                                 pos[1] += 1
+                                direction = 'r'
                             # Diag Right Up
                             elif pos[0] - 1 >= 0 and pos[1] + 1 < 8 and self.config[pos[0] - 1][pos[1] + 1] == 0:
                                 pos[0] -= 1
                                 pos[1] += 1
+                                direction = 'dru'
                             # Diag Right down
                             elif pos[0] + 1 < 8 and pos[1] + 1 < 8 and self.config[pos[0] + 1][pos[1] + 1] == 0:
                                 pos[0] += 1
                                 pos[1] += 1
+                                direction = 'drd'
                             # Down
                             elif pos[0] + 1 < 8 and self.config[pos[0] + 1][pos[1]] == 0 and not down:
                                 pos[0] += 1
+                                direction = 'd'
                             # UP
                             elif pos[0] - 1 >= 0 and self.config[pos[0] - 1][pos[1]] == 0:
                                 down = True
                                 pos[0] -= 1
+                                direction = 'u'
                             else:
                                 moved = False
                                 break
 
+                            motion, update_cost = self.update_motion(motion, direction)
+                            cost += update_cost
+
                         self.config[i][j] = 0
                         self.config[pos[0]][pos[1]] = 1
-
+                    self._cost += cost
                 # Left
                 else:
+                    cost = 0
                     # Direct Left
                     if sum(self.config[i][k:j - 1]) == 0:
                         self.config[i][k] = 1
                         self.config[i][j] = 0
+                        cost = 1
                     else:
                         pos = [i, j]
+                        motion = ''
                         down = False
                         while pos[1] != k:
-
+                            direction = ''
                             # Direct Left
                             if pos[1] - 1 >= 0 and self.config[pos[0]][pos[1] - 1] == 0:
                                 pos[1] -= 1
+                                direction = 'l'
                             # Diag Left Up
                             elif pos[0] - 1 >= 0 and pos[1] - 1 >= 0 and self.config[pos[0] - 1][pos[1] - 1] == 0:
                                 pos[0] -= 1
                                 pos[1] -= 1
+                                direction = 'dlu'
                             # Diag Left down
                             elif pos[0] + 1 < 8 and pos[1] - 1 >= 0 and self.config[pos[0] + 1][pos[1] - 1] == 0:
                                 pos[0] += 1
                                 pos[1] -= 1
+                                direction = 'dld'
                             # Down
                             elif pos[0] + 1 < 8 and self.config[pos[0] + 1][pos[1]] == 0 and not down:
                                 pos[0] += 1
+                                direction = 'd'
                             # UP
                             elif pos[0] - 1 >= 0 and self.config[pos[0] - 1][pos[1]] == 0:
                                 down = True
                                 pos[0] -= 1
+                                direction = 'u'
                             else:
                                 moved = False
                                 break
 
+                            motion, update_cost = self.update_motion(motion, direction)
+                            cost += update_cost
+
                         self.config[i][j] = 0
                         self.config[pos[0]][pos[1]] = 1
-
+                    self._cost += cost
                 if moved:
                     col_sums[j] -= 1
                     zero_index.remove(k)
+
+    def update_motion(self, motion, direction):
+        new_motion = ''
+        updated = 0
+
+        if motion == direction:
+            pass
+        else:
+            new_motion = direction
+            updated = 1
+        return new_motion, updated
