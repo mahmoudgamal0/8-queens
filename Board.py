@@ -27,13 +27,17 @@ class Board:
     def cost(self):
         return self._cost
 
+    @cost.setter
+    def cost(self,value):
+        self._cost = value
+
     @config.setter
     def config(self, value):
         board_list = value.split('\n')
         board_list = [elem.split(' ') for elem in board_list]
         self._config = []
         for line in board_list:
-            self._config.append([(1 if elem == 'Q' else 0) for elem in line[0]])
+            self._config.append([(1 if elem == 'Q' else 0) for elem in line])
 
         self.arrange_queens()
 
