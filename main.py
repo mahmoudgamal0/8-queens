@@ -9,6 +9,8 @@ from fileIO import get_initial_configurations, write_new_configuration
 from gui import draw_grid
 from visualizer import visualize
 
+import argparse
+
 
 def main(board):
     run_hill(board)
@@ -95,8 +97,11 @@ def print_result(method, expanded_nodes, board, exec_time):
 
 # Run ALL
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='This program solve 8 queen problem using different algorithms')
+    parser.add_argument('--algo', type=str, help='choose either hill, csp, gen, kb or all', default='hill')
+    args = parser.parse_args()
     board = get_initial_configurations()
-    mode = 'hill'
+    mode = args.algo
     if mode == 'hill':
         run_hill(board)
     elif mode == 'csp':
