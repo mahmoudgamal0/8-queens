@@ -4,8 +4,10 @@ import time
 from CSP import CSP
 from GA import Genetic
 from HillClimb import HillClimb
-from fileIO import get_initial_configurations, write_new_configuration
 from K_beam import K_beam
+from fileIO import get_initial_configurations, write_new_configuration
+from visualizer import visualize
+
 
 def main():
     board = get_initial_configurations()
@@ -15,12 +17,14 @@ def main():
     board_hill, explored_nodes_hill, path_hill = copy.deepcopy(board).solve(HillClimb())
     time_hill = time.time() - time_hill
     print_result('HillClimb', explored_nodes_hill, board_hill, time_hill)
+    visualize(path_hill)
 
     # CSP WITHOUT BACKTRACKING
     time_csp = time.time()
-    board_csp, expanded_nodes_csp = copy.deepcopy(board).solve(CSP())
+    board_csp, expanded_nodes_csp, path_csp = copy.deepcopy(board).solve(CSP())
     time_csp = time.time() - time_csp
     print_result('CSP', expanded_nodes_csp, board_csp, time_csp)
+    visualize(path_csp)
 
     # GA
     time_ga = time.time()

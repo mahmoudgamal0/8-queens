@@ -1,3 +1,4 @@
+import copy
 import random
 
 from Algorithm import Algorithm
@@ -12,6 +13,7 @@ class CSP(Algorithm):
         board = config
         conflicts_count = board.conflicts_count
         expanded_nodes = 0
+        path_csp = []
         while conflicts_count > 0:
             i = random.sample(set(board.conflicting_queens), 1)[0]
             best, conflicts_count, passed, e = board.get_best_position(i)
@@ -21,8 +23,8 @@ class CSP(Algorithm):
                 # print("Stuck, Random Choice!")
             else:
                 board.move_queen(i, best)
+            path_csp.append(copy.deepcopy(board.config))
             expanded_nodes += e
-            # print('number of conflicts = ', conflicts_count, 'expanded nodes in this step = ', e ,' board = ', board._rows, '\n')
 
+        return board, expanded_nodes, path_csp
 
-        return board, expanded_nodes
