@@ -10,8 +10,7 @@ from gui import draw_grid
 from visualizer import visualize
 
 
-def main():
-    board = get_initial_configurations()
+def main(board):
     run_hill(board)
     run_csp(board)
     run_genetic(board)
@@ -96,27 +95,15 @@ def print_result(method, expanded_nodes, board, exec_time):
 
 # Run ALL
 if __name__ == '__main__':
-    main()
-
-
-# Run Hill Only
-if __name__ == '__main__':
     board = get_initial_configurations()
-    run_hill(board)
-
-
-# Run CSP Only
-if __name__ == '__main__':
-    board = get_initial_configurations()
-    run_csp(board)
-
-# Run KBeam Only
-if __name__ == '__main__':
-    board = get_initial_configurations()
-    run_kbeam(board)
-
-
-# Run Genetic Only
-if __name__ == '__main__':
-    board = get_initial_configurations()
-    run_genetic(board)
+    mode = 'hill'
+    if mode == 'hill':
+        run_hill(board)
+    elif mode == 'csp':
+        run_csp(board)
+    elif mode == 'gen':
+        run_genetic(board)
+    elif mode == 'kb':
+        run_kbeam(board)
+    else:
+        main(board)

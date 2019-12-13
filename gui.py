@@ -36,10 +36,11 @@ def draw_grid(path):
     c.bind('<Configure>', create_grid)
     for board in path:
         c.delete('all')
-        draw(board)
         create_grid(None)
+        draw(board)
         root.update()
         time.sleep(1)
 
+    time.sleep(5)
     root.quit()
 

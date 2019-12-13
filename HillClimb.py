@@ -35,7 +35,8 @@ class HillClimb(Algorithm):
             if len(min_successor) == 0:
                 # Local Max
                 board.random_move()
-                conflicts_count += 1
+                path.append(copy.deepcopy(board.config))
+                conflicts_count += board.conflicts_count
                 continue
 
             # Get Unique minimum
@@ -44,8 +45,8 @@ class HillClimb(Algorithm):
                 # Shoulder
                 unique_min = random.randrange(len(queen))
 
-            path.append(copy.deepcopy(board.config))
             board.move_queen(queen[unique_min], best_successor[unique_min])
+            path.append(copy.deepcopy(board.config))
             conflicts_count = min_successor[unique_min]
 
         return board, explored_nodes, path
