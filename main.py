@@ -34,11 +34,13 @@ def main():
     best_time_pram = {}
     best_cost = 100
     best_cost_pram = {}
+    found = False
     for k in range (1,20):
         time_k = time.time()
         board_K_beam, expanded_nodes_k_beam, cost = k_beam.solve(board.config,k)
         time_k = time.time() - time_k
         if board_K_beam != None:
+            found = True
             board_K_beam.cost = cost
             if best_time > time_k:
                 best_time = time_k
@@ -56,10 +58,11 @@ def main():
                 best_cost_pram['cost'] = cost
                 best_cost_pram['nodes'] = expanded_nodes_k_beam
                 best_cost_pram['board'] = board_K_beam
-    print_result(best_time_pram['name'],best_time_pram['nodes'],
-        best_time_pram['board'],best_time_pram['time'])
-    print_result(best_cost_pram['name'],best_cost_pram['nodes'],
-        best_cost_pram['board'],best_cost_pram['time'])
+    if(found):
+        print_result(best_time_pram['name'],best_time_pram['nodes'],
+            best_time_pram['board'],best_time_pram['time'])
+        print_result(best_cost_pram['name'],best_cost_pram['nodes'],
+            best_cost_pram['board'],best_cost_pram['time'])
 
 
 def print_result(method, expanded_nodes, board, exec_time):
