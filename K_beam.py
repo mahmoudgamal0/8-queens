@@ -36,7 +36,7 @@ class K_beam(Algorithm):
             for suc in new_successor:
                 conflict = self.count_conflicts(suc)
                 if conflict == 0:
-                    return self.create_board(suc),expanded,max_iteration-iterations
+                    return self.create_board(suc),len(expanded_node),max_iteration-iterations
                 conflict_num.append((conflict,suc))
             conflict_num.sort(key= lambda tup: tup[0])
             conflict_count = conflict_num[0][0]
