@@ -14,8 +14,8 @@ class K_beam(Algorithm):
         if(self.count_conflicts(queen_loc) == 0):
             return config, 0
         #generate random k states
-        successors = self.generate_random_states(queen_loc,K-1)
-        successors.append(queen_loc)
+        successors = self.generate_random_states(queen_loc,K)
+        
         conflict_count = self.count_conflicts(queen_loc)
         expanded = 0
         iterations = max_iteration
@@ -106,6 +106,7 @@ class K_beam(Algorithm):
     def generate_random_states(self,queen_loc,K):
         suc = self.get_successors(queen_loc)
         random.shuffle(suc)
+        
         if len(suc) > K:
             successor = copy.deepcopy(suc[0:K])
         else:
