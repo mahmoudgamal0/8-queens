@@ -10,6 +10,7 @@ class Genetic(Algorithm):
         self._generation_count = n
         self.explored_set = {}
         self.expanded_nodes = 0
+        self._cost = 0
 
     def create_random_board(self):
         rows = []
@@ -44,12 +45,16 @@ class Genetic(Algorithm):
         
     def solve(self, config):
         current_generation, generation_lottery, found_solution = self.init_boards()
+        self.cost = 1
+        current_generation[len(current_generation) - 1].cost = self.cost
         if found_solution:
             return current_generation[len(current_generation) - 1], self.expanded_nodes
         while not found_solution:
             current_generation, generation_lottery, found_solution = \
                 self.get_new_generation(current_generation, generation_lottery)
+            self.cost += 1
             if found_solution:
+                current_generation[len(current_generation) - 1].cost = self.cost
                 return current_generation[len(current_generation) - 1], self.expanded_nodes
 
 
