@@ -19,15 +19,17 @@ class K_beam(Algorithm):
         conflict_count = self.count_conflicts(queen_loc)
         expanded = 0
         iterations = max_iteration
+        expanded_node = set()
         
         while conflict_count > 0 and iterations > 0: 
             expanded += len(successors)
             new_successor = []
             #found the successor of K states
             for elem in successors:
+                expanded_node.add(tuple(elem))
                 suc = self.get_successors(elem)
                 for s in suc:
-                    if s not in new_successor:
+                    if s not in new_successor and tuple(s) not in expanded_node:
                         new_successor.append(s)
             #count conflict for each successor
             conflict_num = []
@@ -67,9 +69,9 @@ class K_beam(Algorithm):
             for j in range(i+1,8):
                 if successor[i][0] == successor[j][0]:
                     conflict_count += 1
-                if successor[i][1] == successor[j][1]:
+                elif successor[i][1] == successor[j][1]:
                     conflict_count += 1
-                if abs(successor[i][0]-successor[j][0]) == abs(successor[i][1]-successor[j][1]) :
+                elif abs(successor[i][0]-successor[j][0]) == abs(successor[i][1]-successor[j][1]) :
                     conflict_count += 1
         return conflict_count
 

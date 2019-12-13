@@ -32,10 +32,10 @@ def main():
     k_beam = K_beam()
     best_time = 100
     best_time_pram = {}
-    best_cost = 100
+    best_cost = 100000
     best_cost_pram = {}
     found = False
-    for k in range (1,20):
+    for k in range (5,30):
         time_k = time.time()
         board_K_beam, expanded_nodes_k_beam, cost = k_beam.solve(board.config,k)
         time_k = time.time() - time_k
