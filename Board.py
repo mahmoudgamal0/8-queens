@@ -34,6 +34,10 @@ class Board:
     @config.setter
     def config(self, value):
         board_list = value.split('\n')
+        
+        if board_list[len(board_list)-1] == '':
+        	board_list.pop()
+        
         board_list = [elem.split(' ') for elem in board_list]
         self._config = []
         for line in board_list:

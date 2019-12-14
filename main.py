@@ -49,6 +49,7 @@ def run_kbeam(board):
     best_cost_pram = {}
     found = False
     prev_cost = 200
+    converge = 0
     for k in range(5,31):
         time_k = time.time()
         board_K_beam, expanded_nodes_k_beam, cost = k_beam.solve(board.config, 30)
@@ -57,7 +58,11 @@ def run_kbeam(board):
             found = True
             board_K_beam.cost = cost
             if prev_cost == cost:
-                break
+                converge += 1
+            else:
+            	converge = 0
+            if converge == 3:
+            	break
             prev_cost = cost
             if best_time > time_k:
                 best_time = time_k
